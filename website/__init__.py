@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
 
+    from .csp import csp
     from .views import views
     from .auth import auth
 
