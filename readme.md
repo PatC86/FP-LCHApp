@@ -18,4 +18,4 @@ python main.py
 ```
 
 ## To View Application
-Go to 'http://127.0.0.1:5000/login'````
+Go to 'http://127.0.0.1:5000/'````
