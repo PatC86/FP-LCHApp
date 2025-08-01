@@ -8,6 +8,6 @@ from website import create_app
 
 app = create_app()
 
-## run app would turn of debug if production env
+## run app would turn off debug if production env
 if __name__ == '__main__':
     app.run(debug=True)
