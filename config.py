@@ -10,5 +10,6 @@ import os
 class Config:
     load_dotenv()
     SECRET_KEY = os.getenv('SECRET_KEY')
-    #sqlalchemy_database_uri = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+    #SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     #SQLALCHEMY_TRACK_MODIFICATIONS = False
