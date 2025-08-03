@@ -168,3 +168,6 @@ instance/*
 .webassets-cache
 .env
 
+!/instance/database.db
+!/instance/database.db
+!/instance/
