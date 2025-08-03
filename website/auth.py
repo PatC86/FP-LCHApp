@@ -4,7 +4,9 @@
 # Updated   : 03/08/2025
 # Purpose   : Define authentication for application
 
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, url_for
+from werkzeug.utils import redirect
+
 from .models import User
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -24,8 +26,18 @@ def login():
         Username = request.form['username']
         Password = request.form['password']
 
+        user = User.query.filter_by(username=Username).first()
+        if user:
+            if check_password_hash(user.password, Password):
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Incorrect Password', category='error')
+        else:
+            flash('Incorrect Username', category='error')
 
-    return render_template('login.html')
+    return render_template('login.html', user=current_user)
+
 
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():
