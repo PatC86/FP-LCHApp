@@ -1,7 +1,7 @@
 # NAME: models
 # AUTHOR: Patrick Cronin
 # Date: 02/08/2025
-# Update: 02/08/2025
+# Update: 03/08/2025
 # Purpose: Define database model for lifting assets, asset class, sites, users, roles
 from sqlalchemy import CheckConstraint
 
@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     surname = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    role = db.Column(db.String(10), db.ForeignKey('role.role_name'), nullable=False)
+    user_role = db.Column(db.String(10), db.ForeignKey('role.role_name'), nullable=False)
 
 """class Site(db.Model):
     __tablename__ = 'site'

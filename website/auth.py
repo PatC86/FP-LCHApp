@@ -1,10 +1,13 @@
 # Name      : auth
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 02/08/2025
+# Updated   : 03/08/2025
 # Purpose   : Define authentication for application
 
 from flask import Blueprint, render_template, request, flash
+from .models import User
+from . import db
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 
 MIN_USERNAME_LENGTH = 5
@@ -49,6 +52,10 @@ def useradmin():
         elif Password1 != Password2:
             flash('Passwords do not match', category='error')
         else:
+            new_user = User(username=Username, first_name=FirstName, surname=Surname, user_role=Role,
+                            password=generate_password_hash(Password1, method='pbkdf2:sha256'))
+            db.session.add(new_user)
+            db.session.commit()
             flash('Account created successfully', category='success')
 
 

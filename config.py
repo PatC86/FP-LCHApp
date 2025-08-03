@@ -1,7 +1,7 @@
 # Name      : config
 # Author    : Patrick Cronin
 # Date      : 19/07/2025
-# Updated   : 02/08/2025
+# Updated   : 03/08/2025
 # Purpose   : Config settings for application.
 
 from dotenv import load_dotenv
