@@ -40,8 +40,10 @@ def login():
 
 
 @auth.route('/logout', methods=['GET', 'POST'])
+@login_required
 def logout():
-    return "<h1>Logout Page</h1>"
+    logout_user()
+    return redirect(url_for('auth.login'))
 
 @auth.route('/useradmin', methods=['GET', 'POST'])
 def useradmin():
@@ -71,4 +73,4 @@ def useradmin():
             flash('Account created successfully', category='success')
 
 
-    return render_template('useradmin.html')
+    return render_template('useradmin.html', user=current_user)

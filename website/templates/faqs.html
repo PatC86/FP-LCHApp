@@ -2,10 +2,75 @@
 # Name      : faqs.html
 # Author    : Patrick Cronin
 # Date      : 01/08/2025
-# Updated   : 01/08/2025
+# Updated   : 03/08/2025
 # Purpose   : frequently asked questions page for the website.
  -->
 {% extends "base.html" %}
-{% block title %} Log In {% endblock %}
+{% block title %} FAQS {% endblock %}
 {% block content %}
+<br>
+<h1 style="text-align: center; color: darkblue">Frequently Asked Questions!</h1>
+<br>
+<div class="accordion" id="faqWhy">
+    <div class="card" style="background-color: white;">
+        <div class="card-header" id="headingFaqWhy">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseFaqWhy" aria-expanded="false" aria-controls="collapseFaqWhy">
+                    Why?
+                </button>
+            </h2>
+        </div>
+        <div id="collapseFaqWhy" class="collapse" aria-labelledby="headingFaqWhy" data-parent="#faqWhy">
+            <div class="card-body">
+                This application has been built to help gather condition data for lifting assets.
+                    Where manual measurement and condition scoring needs to take place. This data can be used to help
+                    Southern Water build its own maintenance plan and develop model for predictive maintenance
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="accordion" id="faqAccess">
+    <div class="card" style="background-color: white;">
+        <div class="card-header" id="headingFaqAccess">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseFaqAccess" aria-expanded="false" aria-controls="collapseFaqAccess">
+                    How do I get access?
+                </button>
+            </h2>
+        </div>
+        <div id="collapseFaqAccess" class="collapse" aria-labelledby="headingFaqAccess" data-parent="#faqAccess">
+            <div class="card-body">
+                You can request access by raising an IT ticket under applications. Selecting lifting
+                asset condition application.
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="accordion" id="faqData">
+    <div class="card" style="background-color: white;">
+        <div class="card-header" id="headingFaqData">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseFaqData" aria-expanded="false" aria-controls="collapseFaqData">
+                    Where does the data come from?
+                </button>
+            </h2>
+        </div>
+        <div id="collapseFaqData" class="collapse" aria-labelledby="headingFaqData" data-parent="#faqData">
+            <div class="card-body">
+                Asset data comes from the enterprise asset management application, which masters this data.<br><br>
+                Asset class data comes from the enterprise asset management application, which masters this data.<br><br>
+                Asset status data comes from the enterprise asset management application, which masters this data.<br><br>
+                Site data comes from the site repository, which masters this data.<br><br>
+                The only data that is mastered in this application is the inspection data.
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
 {% endblock %}
