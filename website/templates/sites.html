@@ -1,0 +1,28 @@
+<!--
+# Name      : sites.html
+# Author    : Patrick Cronin
+# Date      : 04/08/2025
+# Updated   : 04/08/2025
+# Purpose   : Site listing for the web app allow users to new site numbers and names.
+ -->
+{% extends "base.html" %}
+{% block title %} Site Listing {% endblock %}
+{% block content %}
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Site No</th>
+            <th>Site Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for site in sites %}
+        <tr>
+            <td>{{site.site_no}}</td>
+            <td>{{site.description}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

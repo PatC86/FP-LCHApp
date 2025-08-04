@@ -1,0 +1,36 @@
+<!--
+# Name      : assets.html
+# Author    : Patrick Cronin
+# Date      : 04/08/2025
+# Updated   : 04/08/2025
+# Purpose   : Asset listing for the web app allow users to new assets numbers and details.
+ -->
+{% extends "base.html" %}
+{% block title %} Asset Listing {% endblock %}
+{% block content %}
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Equip No</th>
+            <th>Description</th>
+            <th>Location On Site</th>
+            <th>Site Name</th>
+            <th>Equip Status</th>
+            <th>Equip Class</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for asset in assets %}
+        <tr>
+            <td>{{asset.equip_no}}</td>
+            <td>{{asset.description}}</td>
+            <td>{{asset.location_on_site}}</td>
+            <td>{{asset.site_desc}}</td>
+            <td>{{asset.status_description}}</td>
+            <td>{{asset.class_description}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

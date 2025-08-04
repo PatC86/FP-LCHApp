@@ -14,7 +14,7 @@ from sqlalchemy.sql import func
 class Asset(db.Model):
     __tablename__ = 'asset'
     id = db.Column(db.Integer, primary_key=True)
-    equip_no = db.Column(db.Integer, nullable=False)
+    equip_no = db.Column(db.Integer, nullable=False, unique=True)
     description = db.Column(db.String(50), nullable=False)
     location_on_site = db.Column(db.String(50), nullable=False)
     site_no = db.Column(db.Integer, db.ForeignKey('site.id'), nullable=False)
