@@ -40,7 +40,7 @@ def contractmanager_required(f):
     @login_required
     def decorated_function(*args, **kwargs):
         try:
-            if not current_user.role.upper() == 'CONTRACT_MANAGER':
+            if not current_user.role.upper() == 'CONTENG':
                 flash('You must be an contract manager.', category='error')
                 abort(403)
         except AttributeError as e:
@@ -63,7 +63,7 @@ def fieldmanager_required(f):
     @login_required
     def decorated_function(*args, **kwargs):
         try:
-            if not current_user.role.upper() == 'FIELD_MANAGER':
+            if not current_user.role.upper() == 'FPM':
                 flash('You must be an field manager.', category='error')
                 abort(403)
         except AttributeError as e:

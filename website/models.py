@@ -65,7 +65,7 @@ class Assetclass(db.Model):
     __tablename__ = 'assetclass'
     class_id = db.Column(db.String(2), primary_key=True)
     class_description = db.Column(db.String(50), nullable=False)
-    asset = db.relationship('Assets', backref='assetclass', lazy=True)
+    asset = db.relationship('Asset', backref='assetclass', lazy=True)
 
 
 class Assetstatus(db.Model):
