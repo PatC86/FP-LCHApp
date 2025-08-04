@@ -4,11 +4,14 @@
 # Updated   : 04/08/2025
 # Purpose   : Define views for application
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, url_for
 from flask_login import current_user, login_required
-from . import db
+from werkzeug.utils import redirect
 
-from website.models import Site, Asset, Assetclass, Assetstatus
+from . import db
+from .userrolewrappers import admin_required
+
+from website.models import Site, Asset, Assetclass, Assetstatus, User
 
 views = Blueprint('views', __name__)
 
@@ -41,3 +44,17 @@ def assets():
         Assetstatus, Asset.equip_status == Assetstatus.status_id).join(Site, Asset.site_no == Site.site_no).all()
     print(AssetList)
     return render_template('assets.html', user=current_user, assets=AssetList)
+
+@views.route('/delete_user/<int:id>', methods=['POST'])
+@admin_required
+def delete_user(id):
+
+    DeleteUser = User.query.get(id)
+    if DeleteUser:
+        db.session.delete(DeleteUser)
+        db.session.commit()
+        flash('User has been successfully deleted', category='success')
+    else:
+        flash('Error user not found', category='error')
+
+    return redirect(url_for('auth.useradmin'))

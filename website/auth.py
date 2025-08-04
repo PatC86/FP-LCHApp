@@ -6,12 +6,10 @@
 
 from flask import Blueprint, render_template, request, flash, url_for
 from werkzeug.utils import redirect
-
-from .models import User, Role
-from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
-
+from .models import User, Role
+from . import db
 from .userrolewrappers import admin_required
 
 MIN_USERNAME_LENGTH = 5
@@ -21,6 +19,7 @@ MIN_PASSWORD_LENGTH = 8
 PASSWORD_REGEX = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
 
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -47,10 +46,10 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+
 @auth.route('/useradmin', methods=['GET', 'POST'])
 @admin_required
 def useradmin():
-    UserList = db.session.query(User.username, User.first_name, User.surname, User.user_role, Role.role_description).join(Role, User.user_role == Role.role_name).all()
     if request.method == 'POST':
         Username = request.form['username']
         FirstName = request.form['first_name']
@@ -79,5 +78,6 @@ def useradmin():
             db.session.commit()
             flash('Account created successfully', category='success')
 
-
+    UserList = db.session.query(User.id, User.username, User.first_name, User.surname, User.user_role,
+                                Role.role_description).join(Role, User.user_role == Role.role_name).all()
     return render_template('useradmin.html', user=current_user, user_list=UserList)
