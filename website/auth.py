@@ -7,10 +7,12 @@
 from flask import Blueprint, render_template, request, flash, url_for
 from werkzeug.utils import redirect
 
-from .models import User
+from .models import User, Role
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
+
+from .userrolewrappers import admin_required
 
 MIN_USERNAME_LENGTH = 5
 MIN_FIRST_NAME_LENGTH = 2
@@ -46,12 +48,14 @@ def logout():
     return redirect(url_for('auth.login'))
 
 @auth.route('/useradmin', methods=['GET', 'POST'])
+@admin_required
 def useradmin():
+    UserList = db.session.query(User.username, User.first_name, User.surname, User.user_role, Role.role_description).join(Role, User.user_role == Role.role_name).all()
     if request.method == 'POST':
         Username = request.form['username']
         FirstName = request.form['first_name']
         Surname = request.form['surname']
-        Role = request.form['role']
+        UserRole = request.form['role']
         Password1 = request.form['password1']
         Password2 = request.form['password2']
 
@@ -69,11 +73,11 @@ def useradmin():
         elif Password1 != Password2:
             flash('Passwords do not match', category='error')
         else:
-            new_user = User(username=Username, first_name=FirstName, surname=Surname, user_role=Role,
+            new_user = User(username=Username, first_name=FirstName, surname=Surname, user_role=UserRole,
                             password=generate_password_hash(Password1, method='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
             flash('Account created successfully', category='success')
 
 
-    return render_template('useradmin.html', user=current_user)
+    return render_template('useradmin.html', user=current_user, user_list=UserList)
