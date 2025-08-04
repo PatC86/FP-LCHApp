@@ -1,7 +1,7 @@
 # Name      : auth
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 03/08/2025
+# Updated   : 04/08/2025
 # Purpose   : Define authentication for application
 
 from flask import Blueprint, render_template, request, flash, url_for
@@ -55,7 +55,10 @@ def useradmin():
         Password1 = request.form['password1']
         Password2 = request.form['password2']
 
-        if len(Username) < MIN_USERNAME_LENGTH:
+        user = User.query.filter_by(username=Username).first()
+        if user:
+            flash('Account already created!', category='error')
+        elif len(Username) < MIN_USERNAME_LENGTH:
             flash('Username is less than minimum length of 5', category='error')
         elif len(FirstName) < MIN_FIRST_NAME_LENGTH:
             flash('First name is less than minimum length of 2', category='error')

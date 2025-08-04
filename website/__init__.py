@@ -1,7 +1,7 @@
 # Name      : main
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 03/08/2025
+# Updated   : 0408/2025
 # Purpose   : Initialisation of application.
 
 from flask import Flask
@@ -26,7 +26,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import User, Role
+    from .models import User, Role, Asset, Assetclass, Assetstatus, Site, Condition, Inspection
 
     with app.app_context():
         db.create_all()
