@@ -79,7 +79,7 @@
             <a class="nav-item nav-link" id="assets" href="/assets">Assets</a>
             <a class="nav-item nav-link" id="site" href="/sites">Sites</a>
             <a class="nav-item nav-link" id="inspection" href="/inspection">Asset Inspection</a>
-            <a class="nav-item nav-link" id="logout" href="/logout">Log Out</a>
+            <a class="nav-item nav-link" id="logout" href="/logout" onclick="return confirmLogOut()">Log Out</a>
             {% else %}
             <a class="nav-item nav-link" id="login" href="/login">Log In</a>
             {% endif %}
@@ -136,6 +136,19 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"
 ></script>
+<script>
+    function confirmLogOut() {
+        return confirm("Are you sure you want to log off??");
+    }
+</script>
+<script>
+    function confirmRoleChange(form, newRole) {
+            const confirmed = confirm(`Are you sure you want to change the role to '${newRole}'?`);
+            if (confirmed) {
+                form.submit();
+            }
+        }
+</script>
 <!--
  add in own scripts:
  <script

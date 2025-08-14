@@ -2,7 +2,7 @@
 # Name      : useradmin.html
 # Author    : Patrick Cronin
 # Date      : 01/08/2025
-# Updated   : 02/08/2025
+# Updated   : 04/08/2025
 # Purpose   : User Admin page for website
  -->
 {% extends "base.html" %}
@@ -63,34 +63,42 @@
 <br>
 <table>
     <thead>
-        <tr>
-            <th>Username</th>
-            <th>First Name</th>
-            <th>Surname</th>
-            <th>Role</th>
-            <th>Role Desc</th>
-            <th>Change Role</th>
-            <th>Remove User</th>
-        </tr>
+    <tr>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Surname</th>
+        <th>Role</th>
+        <th>Role Desc</th>
+        <th>Change Role</th>
+        <th>Remove User</th>
+    </tr>
     </thead>
     <tbody>
-        {% for user in user_list %}
-        <tr>
-            <td>{{user.username}}</td>
-            <td>{{user.first_name}}</td>
-            <td>{{user.surname}}</td>
-            <td>{{user.user_role}}</td>
-            <td>{{user.role_description}}</td>
-            <td>
-
-            </td>
-            <td>
-                <form action="{{ url_for('views.delete_user', id=user.id) }}" method="POST" onsubmit="return confirm('Are you sure that you want to remove this user?');">
-                    <button type="submit" class="btn btn-danger">Remove User</button>
+    {% for user in user_list %}
+    <tr>
+        <td>{{user.username}}</td>
+        <td>{{user.first_name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.user_role}}</td>
+        <td>{{user.role_description}}</td>
+        <td>
+            <form action="{{ url_for('views.update_role', id=user.id) }}" method="POST">
+                    <select name="role" onchange="confirmRoleChange(this.form, this.value)">
+                        <option value="">Select Role</option>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="FIELD">FIELD</option>
+                        <option value="CONTENG">CONTRACT ENGINEER</option>
+                    </select>
                 </form>
-            </td>
-        </tr>
-        {% endfor %}
+        </td>
+        <td>
+            <form action="{{ url_for('views.delete_user', id=user.id) }}" method="POST"
+                  onsubmit="return confirm('Are you sure that you want to remove this user?');">
+                <button type="submit" class="btn btn-danger">Remove User</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

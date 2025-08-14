@@ -4,14 +4,15 @@
 # Updated   : 04/08/2025
 # Purpose   : Define views for application
 
-from flask import Blueprint, render_template, flash, url_for
+from flask import Blueprint, render_template, flash, url_for, request
 from flask_login import current_user, login_required
 from werkzeug.utils import redirect
+from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
 
-from website.models import Site, Asset, Assetclass, Assetstatus, User
+from website.models import Site, Asset, Assetclass, Assetstatus, User, Role
 
 views = Blueprint('views', __name__)
 
@@ -38,17 +39,17 @@ def sites():
 @login_required
 def assets():
     AssetList = db.session.query(Asset.equip_no, Asset.description, Asset.location_on_site,
-                                 Assetclass.class_description, Assetstatus.status_description, Site.description.label('site_desc')).join(
+                                 Assetclass.class_description, Assetstatus.status_description,
+                                 Site.description.label('site_desc')).join(
         Assetclass,
         Asset.equip_class == Assetclass.class_id).join(
         Assetstatus, Asset.equip_status == Assetstatus.status_id).join(Site, Asset.site_no == Site.site_no).all()
-    print(AssetList)
     return render_template('assets.html', user=current_user, assets=AssetList)
+
 
 @views.route('/delete_user/<int:id>', methods=['POST'])
 @admin_required
 def delete_user(id):
-
     DeleteUser = User.query.get(id)
     if DeleteUser:
         db.session.delete(DeleteUser)
@@ -56,5 +57,26 @@ def delete_user(id):
         flash('User has been successfully deleted', category='success')
     else:
         flash('Error user not found', category='error')
+
+    return redirect(url_for('auth.useradmin'))
+
+
+@views.route('/update_role/<int:id>', methods=['POST'])
+@admin_required
+def update_role(id):
+    NewRole = request.form.get('role')
+    RolesList = db.session.execute(
+        select(Role.role_name)
+    ).scalars().all()
+    if NewRole not in RolesList:
+        flash('Role does not exist', category='error')
+    else:
+        ChangingUser = User.query.get(id)
+        if ChangingUser:
+            ChangingUser.user_role = NewRole
+            db.session.commit()
+            flash('Role has been successfully updated', category='success')
+        else:
+            flash('User not found', category='error')
 
     return redirect(url_for('auth.useradmin'))
