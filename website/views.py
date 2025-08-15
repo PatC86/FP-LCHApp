@@ -21,7 +21,23 @@ views = Blueprint('views', __name__)
 @views.route('/')
 @login_required
 def home():
-    return render_template('home.html', user=current_user)
+    if current_user.user_role == 'ADMIN':
+        UserCount = User.query.count()
+        AdminCount = User.query.filter_by(user_role='ADMIN').count()
+        ContEngCount = User.query.filter_by(user_role='CONTENG').count()
+        FieldCount = User.query.filter_by(user_role='FIELD').count()
+        InspCount = Inspection.query.count()
+        Counts = (UserCount, AdminCount, ContEngCount, FieldCount, InspCount)
+        return render_template('home.html', user=current_user, counts=Counts)
+    elif current_user.user_role == 'CONTENG':
+        FailedInsps = db.session.query(Inspection.id, Inspection.equip_no, Inspection.user_id, Inspection.insp_date, Inspection.condition_code, Inspection.lc_health_score, Inspection.asset_passed, Asset.equip_class, Asset.site_no, Assetclass.class_description, Site.description, User.first_name, User.surname).join(Asset, Inspection.equip_no == Asset.equip_no).join(Assetclass, Asset.equip_class == Assetclass.class_id).join(Site, Asset.site_no == Site.site_no).join(User, Inspection.user_id == User.id).filter(Inspection.asset_passed.is_(False)).all()
+        print(FailedInsps)
+        return render_template('home.html', user=current_user, failedinsps=FailedInsps)
+    elif current_user.user_role == 'FIELD':
+        Inspections = Inspection.query.filter_by(user_id=current_user.id).all()
+        return render_template('home.html', user=current_user, inspections=Inspections)
+    else:
+        return render_template('home.html', user=current_user)
 
 # flask blueprint view for FAQs
 @views.route('faqs')
