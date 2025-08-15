@@ -1,0 +1,96 @@
+<!--
+# Name      : inspection.html
+# Author    : Patrick Cronin
+# Date      : 14/08/2025
+# Updated   : 15/08/2025
+# Purpose   : Page for field users to record lifting asset inspections.
+ -->
+{% extends "base.html" %}
+{% block title %} Inspections {% endblock %}
+{% block content %}
+<br>
+<h1 style="text-align: center; color: darkblue">Record Lifting Asset Inspection</h1>
+<br>
+<div class="accordion" id="userChainInspAccordion">
+    <div class="card" style="background-color: white;">
+        <div class="card-header" id="headingLiftingChainInsp">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseLiftingChainInsp" aria-expanded="false" aria-controls="collapseLiftingChainInsp">
+                    Record Lifting Chain Inspection
+                </button>
+            </h2>
+        </div>
+        <div id="collapseLiftingChainInsp" class="collapse" aria-labelledby="headingLiftingChainInsp" data-parent="#userChainInspAccordion">
+            <div class="card-body">
+                <form method="POST">
+                    <input type="hidden" name="form" value="chain_insp">
+                    <div class="form-group">
+                        <label for="equip_no">Equip No:</label>
+                        <input type="text" class="form-control" id="equip_no" name="equip_no"
+                               placeholder="Please select equip no">
+                    </div>
+                    <div class="form-group">
+                        <label for="condition">Condition:</label>
+                        <input type="number" class="form-control" id="condition" name="condition"
+                               placeholder="Please select condition">
+                    </div>
+                    <div class="form-group">
+                        <label for="chain_length">Chain Length (m):</label>
+                        <input type="number" class="form-control" id="chain_length" name="chain_length" placeholder="Enter chain length in metres (m)">
+                    </div>
+                    <div class="form-group">
+                        <label for="pitch_length">Pitch Length (mm):</label>
+                        <input type="number" class="form-control" id="pitch_length" name="pitch_length" placeholder="Enter chain pitch length in millimeters (mm)">
+                    </div>
+                    <div class="form-group">
+                        <label for="mean_measured_pitch_length">Mean Measured Pitch Length (mm):</label>
+                        <input type="number" class="form-control" id="mean_measured_pitch_length" name="mean_measured_pitch_length"
+                               placeholder="Enter mean measured pitch length in millimetres (mm)">
+                    </div>
+                    <div class="form-group">
+                        <label for="pitches_measured">Pitches Measured:</label>
+                        <input type="number" class="form-control" id="pitches_measured" name="pitches_measured"
+                               placeholder="Enter number of pitches measured">
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<div class="accordion" id="userOtherInspAccordion">
+    <div class="card" style="background-color: white;">
+        <div class="card-header" id="headingLiftingOtherInsp">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseLiftingOtherInsp" aria-expanded="false" aria-controls="collapseLiftingOtherInsp">
+                    Record Inspection for all other types of lifting asset.
+                </button>
+            </h2>
+        </div>
+        <div id="collapseLiftingOtherInsp" class="collapse" aria-labelledby="headingLiftingOtherInsp" data-parent="#userOtherInspAccordion">
+            <div class="card-body">
+                <form method="POST">
+                    <input type="hidden" name="form" value="other_insp">
+                    <div class="form-group">
+                        <label for="o_equip_no">Equip No:</label>
+                        <input type="text" class="form-control" id="o_equip_no" name="o_equip_no"
+                               placeholder="Please select equip no">
+                    </div>
+                    <div class="form-group">
+                        <label for="o_condition">Condition:</label>
+                        <input type="number" class="form-control" id="o_condition" name="o_condition"
+                               placeholder="Please select condition">
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 # Name      : views
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 04/08/2025
+# Updated   : 15/08/2025
 # Purpose   : Define views for application
 
 from flask import Blueprint, render_template, flash, url_for, request
@@ -11,12 +11,13 @@ from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
+from .inspections import conditioncheck
 
-from website.models import Site, Asset, Assetclass, Assetstatus, User, Role
+from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection
 
 views = Blueprint('views', __name__)
 
-
+# flask blueprint view for home page
 @views.route('/')
 @login_required
 def home():
@@ -46,6 +47,34 @@ def assets():
         Assetstatus, Asset.equip_status == Assetstatus.status_id).join(Site, Asset.site_no == Site.site_no).all()
     return render_template('assets.html', user=current_user, assets=AssetList)
 
+@views.route('/inspection', methods=['GET', 'POST'])
+@login_required
+def inspection():
+    if request.method == 'POST':
+        form_id = request.form.get('form')
+        if form_id == 'other_insp':
+            EquipNo = request.form.get('o_equip_no')
+            Condition = request.form.get('o_condition')
+
+            if not all([EquipNo, Condition]):
+                flash('All fields are required.', 'error')
+                return redirect(url_for('views.inspection'))
+
+            ConditionPass = conditioncheck(Condition)
+            NewInspection = Inspection(equip_no=EquipNo,
+                                       condition_code=Condition,
+                                       asset_passed=ConditionPass,
+                                       user_id=current_user.id)
+            db.session.add(NewInspection)
+            db.session.commit()
+            flash('Inspection has been created.', 'success')
+
+    return render_template('inspection.html', user=current_user)
+
+@views.route('/inspadmin', methods=['GET', 'POST'])
+@admin_required
+def inspadmin():
+    return render_template('inspadmin.html', user=current_user)
 
 @views.route('/delete_user/<int:id>', methods=['POST'])
 @admin_required
