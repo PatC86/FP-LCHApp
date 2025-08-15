@@ -11,4 +11,39 @@
 <br>
 <h1 style="text-align: center; color: darkblue">Admin Lifting Asset Inspection</h1>
 <br>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Equip No</th>
+        <th>Condition</th>
+        <th>Health Score</th>
+        <th>Passed</th>
+        <th>Inspection Date</th>
+        <th>Inspection User</th>
+        <th>Username</th>
+        <th>Delete Inspection</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for inspection in inspections %}
+    <tr>
+        <td>{{inspection.id}}</td>
+        <td>{{inspection.equip_no}}</td>
+        <td>{{inspection.condition_code}}</td>
+        <td>{{inspection.lc_health_score}}</td>
+        <td>{{inspection.asset_passed}}</td>
+        <td>{{inspection.insp_date}}</td>
+        <td>{{inspection.first_name}} {{inspection.surname}}</td>
+        <td>{{inspection.username}}</td>
+        <td>
+            <form action="{{ url_for('views.delete_insp', id=inspection.id) }}" method="POST"
+                  onsubmit="return confirm('Are you sure that you want to remove this inspection?');">
+                <button type="submit" class="btn btn-danger">Remove Inspection</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

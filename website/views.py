@@ -103,7 +103,21 @@ def inspection():
 @views.route('/inspadmin', methods=['GET', 'POST'])
 @admin_required
 def inspadmin():
-    return render_template('inspadmin.html', user=current_user)
+    InspectionList = db.session.query(Inspection.id, Inspection.equip_no, Inspection.condition_code, Inspection.lc_health_score, Inspection.asset_passed, Inspection.insp_date, Inspection.user_id, User.first_name, User.surname, User.username).join(User, Inspection.user_id == User.id).all()
+    return render_template('inspadmin.html', user=current_user, inspections=InspectionList)
+
+@views.route('/inspadmin/<int:id>', methods=['POST'])
+@admin_required
+def delete_insp(id):
+    DeleteInsp = Inspection.query.get(id)
+    if DeleteInsp:
+        db.session.delete(DeleteInsp)
+        db.session.commit()
+        flash('Inspection has been deleted.', 'success')
+    else:
+        flash('Inspection cannot be deleted.', 'error')
+
+    return redirect(url_for('views.inspadmin'))
 
 @views.route('/delete_user/<int:id>', methods=['POST'])
 @admin_required
