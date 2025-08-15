@@ -23,12 +23,12 @@ views = Blueprint('views', __name__)
 def home():
     return render_template('home.html', user=current_user)
 
-
+# flask blueprint view for FAQs
 @views.route('faqs')
 def faqs():
     return render_template('faqs.html', user=current_user)
 
-
+# flask blueprint view for operational sites
 @views.route('/sites')
 @login_required
 def sites():
