@@ -11,7 +11,7 @@ from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
-from .inspections import conditioncheck
+from .inspections import conditioncheck, lchealthscore, lcpass
 
 from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection
 
@@ -52,6 +52,7 @@ def assets():
 def inspection():
     if request.method == 'POST':
         form_id = request.form.get('form')
+        # processing inspections for lifting assets that aren't lifting chains
         if form_id == 'other_insp':
             EquipNo = request.form.get('o_equip_no')
             Condition = request.form.get('o_condition')
@@ -64,6 +65,34 @@ def inspection():
             NewInspection = Inspection(equip_no=EquipNo,
                                        condition_code=Condition,
                                        asset_passed=ConditionPass,
+                                       user_id=current_user.id)
+            db.session.add(NewInspection)
+            db.session.commit()
+            flash('Inspection has been created.', 'success')
+        # processing lifting chain inspections
+        if form_id == 'chain_insp':
+            EquipNo = request.form.get('equip_no')
+            Condition = request.form.get('condition')
+            ChainLength = request.form.get('chain_length')
+            ChainPitchLength = request.form.get('pitch_length')
+            MeasureMeanPitchLength = request.form.get('mean_measured_pitch_length')
+            PitchesMeasured = request.form.get('pitches_measured')
+
+            if not all([EquipNo, Condition, ChainLength, ChainPitchLength, MeasureMeanPitchLength, PitchesMeasured]):
+                flash('All fields are required.', 'error')
+                return redirect(url_for('views.inspection'))
+
+            ConditionPass = conditioncheck(Condition)
+            HealthScore = lchealthscore(MeasureMeanPitchLength, ChainPitchLength)
+            HealthScorePass = lcpass(ConditionPass, HealthScore)
+            NewInspection = Inspection(equip_no=EquipNo,
+                                       condition_code=Condition,
+                                       chain_length=ChainLength,
+                                       chain_pitch_length=ChainPitchLength,
+                                       measure_mean_pitch_length=MeasureMeanPitchLength,
+                                       pitches_measured=PitchesMeasured,
+                                       lc_health_score=HealthScore,
+                                       asset_passed=HealthScorePass,
                                        user_id=current_user.id)
             db.session.add(NewInspection)
             db.session.commit()
