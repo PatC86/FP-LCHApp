@@ -11,9 +11,9 @@ from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
-from .inspections import conditioncheck, lchealthscore, lcpass, MIN_CHAIN_LENGTH, MAX_CHAIN_LENGTH
+from .inspections import conditioncheck, lchealthscore, lcpass, MIN_CHAIN_LENGTH, MAX_CHAIN_LENGTH, MIN_PITCH_LENGTH, MAX_PITCH_LENGTH, MIN_PITCHES_MEASURED
 
-from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection
+from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection, Condition as ConditionModel
 
 views = Blueprint('views', __name__)
 
@@ -51,7 +51,7 @@ def sites():
     SiteList = db.session.query(Site).all()
     return render_template('sites.html', user=current_user, sites=SiteList)
 
-
+# flask blueprint view for lifting assets
 @views.route('/assets')
 @login_required
 def assets():
@@ -114,8 +114,10 @@ def inspection():
             db.session.add(NewInspection)
             db.session.commit()
             flash('Inspection has been created.', 'success')
-
-    return render_template('inspection.html', user=current_user,min_length=MIN_CHAIN_LENGTH, max_length=MAX_CHAIN_LENGTH)
+    LiftingChainList = db.session.query(Asset.equip_no, Asset.description).filter_by(equip_class='C5').all()
+    OtherAssetList = db.session.query(Asset.equip_no, Asset.description).filter(Asset.equip_class != 'C5').all()
+    ConditionList = db.session.query(ConditionModel).all()
+    return render_template('inspection.html', user=current_user,min_length=MIN_CHAIN_LENGTH, max_length=MAX_CHAIN_LENGTH, min_pitch_length=MIN_PITCH_LENGTH, max_pitch_length=MAX_PITCH_LENGTH, min_pitches_measured=MIN_PITCHES_MEASURED, lifting_chain_list=LiftingChainList, condition_list=ConditionList, other_asset_list=OtherAssetList)
 
 @views.route('/inspadmin', methods=['GET', 'POST'])
 @admin_required

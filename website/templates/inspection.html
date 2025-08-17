@@ -29,38 +29,54 @@
                     <input type="hidden" name="form" value="chain_insp">
                     <div class="form-group">
                         <label for="equip_no">Equip No:</label>
-                        <input type="text" class="form-control" id="equip_no" name="equip_no"
-                               placeholder="Please select equip no">
+                        <select class="form-control" id="equip_no" name="equip_no">
+                            <option value="">Select Equip No</option>
+                            {% for lifting_chain in lifting_chain_list %}
+                            <option value="{{lifting_chain.equip_no}}">{{lifting_chain.equip_no}} - {{lifting_chain.description}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="condition">Condition:</label>
-                        <input type="number" class="form-control" id="condition" name="condition"
-                               placeholder="Please select condition">
+                        <select class="form-control" id="condition" name="condition">
+                            <option value="">Select Condition Score</option>
+                            {% for condition in condition_list %}
+                            <option value="{{condition.condition_code}}">{{condition.condition_code}} - {{condition.condition_description}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="chain_length">Chain Length (m):</label>
                         <input type="number" class="form-control" id="chain_length" name="chain_length"
-                               placeholder="Enter chain length ({{ min_length }}–{{ max_length }} m)"
+                               placeholder="Enter chain length in metres ({{ min_length }}–{{ max_length }} m)"
                                min="{{ '{:.1f}'.format(min_length) }}"
                                max="{{ '{:.1f}'.format(max_length) }}"
-                               step="0.5"
-                               value="{{ request.form.get('chain_length', '{:.1f}'.format(min_length)) }}">
+                               step="0.1"
+                               >
                     </div>
                     <div class="form-group">
                         <label for="pitch_length">Pitch Length (mm):</label>
                         <input type="number" class="form-control" id="pitch_length" name="pitch_length"
-                               placeholder="Enter chain pitch length in millimeters (mm)">
+                               placeholder="Enter chain pitch length in millimetres ({{min_pitch_length}}-{{max_pitch_length}} mm)"
+                               min="{{'{:.0f}'.format(min_pitch_length)}}"
+                               max="{{'{:.0f}'.format(max_pitch_length)}}"
+                               step="1">
                     </div>
                     <div class="form-group">
                         <label for="mean_measured_pitch_length">Mean Measured Pitch Length (mm):</label>
                         <input type="number" class="form-control" id="mean_measured_pitch_length"
                                name="mean_measured_pitch_length"
-                               placeholder="Enter mean measured pitch length in millimetres (mm)">
+                               placeholder="Enter mean measured pitch length in millimetres (mm)"
+                               min="{{'{:.0f}'.format(min_pitch_length)}}"
+                                step="1"
+                        >
                     </div>
                     <div class="form-group">
                         <label for="pitches_measured">Pitches Measured:</label>
                         <input type="number" class="form-control" id="pitches_measured" name="pitches_measured"
-                               placeholder="Enter number of pitches measured">
+                               placeholder="Enter number of pitches measured (min {{min_pitches_measured}})"
+                               min="{{'{:.0f}'.format(min_pitches_measured)}}"
+                        step="1">
                     </div>
                     <br/>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -89,13 +105,21 @@
                     <input type="hidden" name="form" value="other_insp">
                     <div class="form-group">
                         <label for="o_equip_no">Equip No:</label>
-                        <input type="text" class="form-control" id="o_equip_no" name="o_equip_no"
-                               placeholder="Please select equip no">
+                        <select class="form-control" id="o_equip_no" name="o_equip_no">
+                            <option value="">Select Equip No</option>
+                            {% for other_asset in other_asset_list %}
+                            <option value="{{other_asset.equip_no}}">{{other_asset.equip_no}} - {{other_asset.description}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="o_condition">Condition:</label>
-                        <input type="number" class="form-control" id="o_condition" name="o_condition"
-                               placeholder="Please select condition">
+                        <select class="form-control" id="o_condition" name="o_condition">
+                            <option value="">Select Condition Score</option>
+                            {% for condition in condition_list %}
+                            <option value="{{condition.condition_code}}">{{condition.condition_code}} - {{condition.condition_description}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <br/>
                     <button type="submit" class="btn btn-primary">Submit</button>
