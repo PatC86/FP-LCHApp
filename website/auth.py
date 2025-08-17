@@ -1,7 +1,7 @@
 # Name      : auth
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 04/08/2025
+# Updated   : 17/08/2025
 # Purpose   : Define authentication for application
 
 from flask import Blueprint, render_template, request, flash, url_for
@@ -80,4 +80,5 @@ def useradmin():
 
     UserList = db.session.query(User.id, User.username, User.first_name, User.surname, User.user_role,
                                 Role.role_description).join(Role, User.user_role == Role.role_name).all()
-    return render_template('useradmin.html', user=current_user, user_list=UserList)
+    RoleList = db.session.query(Role.role_name, Role.role_description).all()
+    return render_template('useradmin.html', user=current_user, user_list=UserList, role_list=RoleList)

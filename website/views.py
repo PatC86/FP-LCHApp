@@ -1,7 +1,7 @@
 # Name      : views
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 15/08/2025
+# Updated   : 17/08/2025
 # Purpose   : Define views for application
 
 from flask import Blueprint, render_template, flash, url_for, request
@@ -11,7 +11,7 @@ from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
-from .inspections import conditioncheck, lchealthscore, lcpass
+from .inspections import conditioncheck, lchealthscore, lcpass, MIN_CHAIN_LENGTH, MAX_CHAIN_LENGTH
 
 from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection
 
@@ -63,6 +63,7 @@ def assets():
         Assetstatus, Asset.equip_status == Assetstatus.status_id).join(Site, Asset.site_no == Site.site_no).all()
     return render_template('assets.html', user=current_user, assets=AssetList)
 
+# blueprint view for inspections (lifting chain and other lifting assets)
 @views.route('/inspection', methods=['GET', 'POST'])
 @login_required
 def inspection():
@@ -114,7 +115,7 @@ def inspection():
             db.session.commit()
             flash('Inspection has been created.', 'success')
 
-    return render_template('inspection.html', user=current_user)
+    return render_template('inspection.html', user=current_user,min_length=MIN_CHAIN_LENGTH, max_length=MAX_CHAIN_LENGTH)
 
 @views.route('/inspadmin', methods=['GET', 'POST'])
 @admin_required

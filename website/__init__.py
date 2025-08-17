@@ -1,7 +1,7 @@
 # Name      : __init__
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 0408/2025
+# Updated   : 04/08/2025
 # Purpose   : Initialisation of application.
 
 from flask import Flask
@@ -28,8 +28,8 @@ def create_app():
 
     from .models import User, Role, Asset, Assetclass, Assetstatus, Site, Condition, Inspection
 
-    with app.app_context():
-        db.create_all()
+    #with app.app_context():
+        #db.create_all()
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -45,6 +45,6 @@ def create_app():
 
     return app
 
-def create_db():
-    if not path.exists('database.db'):
-        db.create_all()
+#def create_db():
+    #if not path.exists('database.db'):
+        #db.create_all()
