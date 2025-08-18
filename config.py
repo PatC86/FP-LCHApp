@@ -10,6 +10,7 @@ import os
 
 # db and secret key config for application
 class Config:
+    """configuration for web app"""
     load_dotenv()
     try:
         SECRET_KEY = os.getenv('SECRET_KEY')

@@ -1,15 +1,12 @@
 # Name      : csp
 # Author    : Patrick Cronin
 # Date      : 21/07/2025
-# Updated   : 21/07/2025
+# Updated   : 18/08/2025
 # Purpose   : Define and enforce CSP
 
-from flask import Response, request, jsonify, Blueprint
+from flask import Response, request, Blueprint
 
-CSP_POLICY = (
-    "default-src 'self'; "
-    "script-src 'self'; ",
-)
+CSP_POLICY = "default-src 'self'; script-src 'self';"
 
 csp = Blueprint('csp', __name__)
 
