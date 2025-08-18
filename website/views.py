@@ -62,7 +62,7 @@ def home():
 
 
 # flask blueprint view for FAQs
-@views.route('faqs')
+@views.route('/faqs')
 def faqs():
     try:
         return render_template('faqs.html', user=current_user)
