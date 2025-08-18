@@ -8,12 +8,14 @@ import sys
 from website import create_app
 import logging
 
+# create app
 try:
     app = create_app()
 except Exception as e:
     logging.error(f'Failed to create app: {e}')
     sys.exit(1)
 
+# run app
 ## run app would turn off debug if production env
 if __name__ == '__main__':
     try:

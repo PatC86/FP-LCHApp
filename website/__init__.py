@@ -1,7 +1,7 @@
 # Name      : __init__
 # Author    : Patrick Cronin
 # Date      : 20/07/2025
-# Updated   : 04/08/2025
+# Updated   : 18/08/2025
 # Purpose   : Initialisation of application.
 
 from flask import Flask
@@ -16,33 +16,42 @@ db = SQLAlchemy()
 # Create flask app using config from config.py
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('config.Config')
-    db.init_app(app)
+    try:
+        app.config.from_object('config.Config')
+        db.init_app(app)
 
-    from .csp import csp
-    from .views import views
-    from .auth import auth
-
-    app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
-
-    from .models import User, Role, Asset, Assetclass, Assetstatus, Site, Condition, Inspection
-
-    # with app.app_context():
-    # db.create_all()
-
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
+        from .models import User, Role, Asset, Assetclass, Assetstatus, Site, Condition, Inspection
+    except Exception as e:
+        logging.error(f'Error while creating app: {e}')
+        raise
 
     try:
-        login_manager.init_app(app)
+        from .csp import csp
+        from .views import views
+        from .auth import auth
 
-        @login_manager.user_loader
-        def load_user(id):
-            return User.query.get(int(id))
+        app.register_blueprint(views, url_prefix='/')
+        app.register_blueprint(auth, url_prefix='/')
+        app.register_blueprint(csp, url_prefix='/')
+
+        # with app.app_context():
+        # db.create_all()
+
+        login_manager = LoginManager()
+        login_manager.login_view = 'auth.login'
+
+        try:
+            login_manager.init_app(app)
+
+            @login_manager.user_loader
+            def load_user(id):
+                return User.query.get(int(id))
+        except Exception as e:
+            logging.error(f"Failed to load user{id}: {e}")
+            return None
     except Exception as e:
-        logging.error(f"Failed to load user{id}: {e}")
-        return None
+        logging.error(f"Failed during blueprint setups: {e}")
+        raise
 
     return app
 

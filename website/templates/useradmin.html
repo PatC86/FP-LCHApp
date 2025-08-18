@@ -40,7 +40,12 @@
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <input type="text" class="form-control" id="role" name="role" placeholder="Enter Role">
+                        <select name="role" class="form-control" id="role" name="role" placeholder="Select Role">
+                            <option value="">Select Role</option>
+                            {% for role in role_list %}
+                            <option value="{{role.role_name}}">{{role.role_name}} - {{role.role_description}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="password1">Password</label>

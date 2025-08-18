@@ -1,7 +1,7 @@
 # Name      : userrolewrappers
 # Author    : Patrick Cronin
 # Date      : 01/08/2025
-# Updated   : 04/08/2025
+# Updated   : 18/08/2025
 # Purpose   : Define wrappers for different user roles
 
 import logging
@@ -10,6 +10,7 @@ from flask import abort, flash, redirect, url_for
 from flask_login import current_user, login_required
 
 
+# user wrapper for views that are to be restricted to admin level users.
 def admin_required(f):
     """Wrapper to ensure that the user is logged in with admin role. To restrict access for certain functions and views"""
 
@@ -33,6 +34,7 @@ def admin_required(f):
     return decorated_function
 
 
+# user wrapper for views that are to be restricted to contract engineer level users.
 def contractmanager_required(f):
     """Wrapper to ensure that user is logged in with contract manager role. To restrict access for certain functions and views"""
 

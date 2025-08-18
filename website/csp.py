@@ -14,6 +14,7 @@ CSP_POLICY = (
 csp = Blueprint('csp', __name__)
 
 
+# blueprint route for content security policy
 # Need to remove -Report-Only
 @csp.after_request
 def after_request(response: Response):
@@ -21,8 +22,9 @@ def after_request(response: Response):
     return response
 
 
+# blueprint route for content security policy reporting
 @csp.route('/cspreport', methods=['POST'])
 def cspreport():
     violations = request.get_json()
     print('Violations:', violations)
-    return jsonify({}), 204
+    return "", 204

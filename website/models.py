@@ -1,8 +1,8 @@
 # NAME: models
 # AUTHOR: Patrick Cronin
 # Date: 02/08/2025
-# Update: 04/08/2025
-# Purpose: Define database model for assets, asset class, asset status, condition, inspections, sites, users and roles
+# Update: 18/08/2025
+# Purpose: Define model for assets, asset class, asset status, condition, inspections, sites, users and roles
 from sqlalchemy import CheckConstraint
 
 from . import db
@@ -10,7 +10,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 
 
-# Class to define assets table, links and constraints
+# Class to define assets model, table, links and constraints
 class Asset(db.Model):
     __tablename__ = 'asset'
     id = db.Column(db.Integer, primary_key=True)
@@ -26,6 +26,7 @@ class Asset(db.Model):
     )
 
 
+# class to define inspections model, tables, links and constraints.
 class Inspection(db.Model):
     __tablename__ = 'inspection'
     id = db.Column(db.Integer, primary_key=True)
@@ -41,6 +42,7 @@ class Inspection(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
+# class to define user model, tables, links and constraints.
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -52,6 +54,7 @@ class User(db.Model, UserMixin):
     inspections = db.relationship('Inspection', backref='user', lazy=True)
 
 
+# class to define site model, tables, links and constraints.
 class Site(db.Model):
     __tablename__ = 'site'
     id = db.Column(db.Integer, primary_key=True)
@@ -63,6 +66,7 @@ class Site(db.Model):
     assets = db.relationship('Asset', backref='site', lazy=True)
 
 
+# class to define asset class model, tables, links and constraints.
 class Assetclass(db.Model):
     __tablename__ = 'assetclass'
     class_id = db.Column(db.String(2), primary_key=True)
@@ -70,6 +74,7 @@ class Assetclass(db.Model):
     asset = db.relationship('Asset', backref='assetclass', lazy=True)
 
 
+# class to define asset status model, tables, links and constraints.
 class Assetstatus(db.Model):
     __tablename__ = 'assetstatus'
     status_id = db.Column(db.String(2), primary_key=True)
@@ -77,6 +82,7 @@ class Assetstatus(db.Model):
     asset = db.relationship('Asset', backref='assetstatus', lazy=True)
 
 
+# class to define condition model, tables, links and constraints.
 class Condition(db.Model):
     __tablename__ = 'condition'
     condition_code = db.Column(db.String(2), primary_key=True)
@@ -84,6 +90,7 @@ class Condition(db.Model):
     inspection = db.relationship('Inspection', backref='condition', lazy=True)
 
 
+# class to define role model, tables, links and constraints.
 class Role(db.Model):
     __tablename__ = 'role'
     role_name = db.Column(db.String(10), primary_key=True)

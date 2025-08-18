@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 
 
+# db and secret key config for application
 class Config:
     load_dotenv()
     try:
