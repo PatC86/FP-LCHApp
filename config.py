@@ -7,6 +7,7 @@
 from dotenv import load_dotenv
 import os
 
+
 class Config:
     load_dotenv()
     try:
@@ -15,7 +16,7 @@ class Config:
         raise EnvironmentError('Please set the SECRET_KEY env variable')
     try:
         SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
-        #SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+        # SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     except Exception as e:
         raise EnvironmentError('Please set the DATABASE_URI env variable')
-    #SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # SQLALCHEMY_TRACK_MODIFICATIONS = False

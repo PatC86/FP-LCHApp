@@ -5,6 +5,5 @@
 # Purpose   : Test functions defined in __init__
 
 
-
 def test_create_app():
     assert True

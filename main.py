@@ -14,7 +14,6 @@ except Exception as e:
     logging.error(f'Failed to create app: {e}')
     sys.exit(1)
 
-
 ## run app would turn off debug if production env
 if __name__ == '__main__':
     try:

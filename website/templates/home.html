@@ -14,61 +14,62 @@
 <br>
 <table>
     <thead>
-        <tr>
-            <th>User Count</th>
-            <th>Admin Count</th>
-            <th>Contract Engineer Count</th>
-            <th>Field User Count</th>
-            <th>Inspection Count</th>
-        </tr>
+    <tr>
+        <th>User Count</th>
+        <th>Admin Count</th>
+        <th>Contract Engineer Count</th>
+        <th>Field User Count</th>
+        <th>Inspection Count</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>{{counts[0]}}</td>
-            <td>{{counts[1]}}</td>
-            <td>{{counts[2]}}</td>
-            <td>{{counts[3]}}</td>
-            <td>{{counts[4]}}</td>
-        </tr>
+    <tr>
+        <td>{{counts[0]}}</td>
+        <td>{{counts[1]}}</td>
+        <td>{{counts[2]}}</td>
+        <td>{{counts[3]}}</td>
+        <td>{{counts[4]}}</td>
+    </tr>
     </tbody>
 </table>
 {% elif user.user_role.upper() == 'CONTENG' %}
 <br>
 <br>
-<h3>Hello {{user.first_name}}! Welcome to your dashboard where you can view lifting assets that have failed their inspections!</h3>
+<h3>Hello {{user.first_name}}! Welcome to your dashboard where you can view lifting assets that have failed their
+    inspections!</h3>
 <br>
 <h3>Remember to raise work orders to get them replaced!</h3>
 <br>
 <table>
     <thead>
-        <tr>
-            <th>Inspection ID</th>
-            <th>Equip No</th>
-            <th>Equip Class</th>
-            <th>Site No</th>
-            <th>Site</th>
-            <th>Condition</th>
-            <th>Lifting Chain Health Score</th>
-            <th>Asset Passed</th>
-            <th>Inspection Date</th>
-            <th>Inspection User</th>
-        </tr>
+    <tr>
+        <th>Inspection ID</th>
+        <th>Equip No</th>
+        <th>Equip Class</th>
+        <th>Site No</th>
+        <th>Site</th>
+        <th>Condition</th>
+        <th>Lifting Chain Health Score</th>
+        <th>Asset Passed</th>
+        <th>Inspection Date</th>
+        <th>Inspection User</th>
+    </tr>
     </thead>
     <tbody>
-        {% for failedinsp in failedinsps %}
-        <tr>
-            <td>{{failedinsp.id}}</td>
-            <td>{{failedinsp.equip_no}}</td>
-            <td>{{failedinsp.class_description}}</td>
-            <td>{{failedinsp.site_no}}</td>
-            <td>{{failedinsp.description}}</td>
-            <td>{{failedinsp.condition_code}}</td>
-            <td>{{failedinsp.lc_health_score}}</td>
-            <td>{{failedinsp.asset_passed}}</td>
-            <td>{{failedinsp.insp_date}}</td>
-            <td>{{failedinsp.first_name}} {{failedinsp.surname}}</td>
-        </tr>
-        {% endfor %}
+    {% for failedinsp in failedinsps %}
+    <tr>
+        <td>{{failedinsp.id}}</td>
+        <td>{{failedinsp.equip_no}}</td>
+        <td>{{failedinsp.class_description}}</td>
+        <td>{{failedinsp.site_no}}</td>
+        <td>{{failedinsp.description}}</td>
+        <td>{{failedinsp.condition_code}}</td>
+        <td>{{failedinsp.lc_health_score}}</td>
+        <td>{{failedinsp.asset_passed}}</td>
+        <td>{{failedinsp.insp_date}}</td>
+        <td>{{failedinsp.first_name}} {{failedinsp.surname}}</td>
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% elif user.user_role.upper() == 'FIELD' %}
@@ -78,26 +79,26 @@
 <br>
 <table>
     <thead>
-        <tr>
-            <th>Inspection ID</th>
-            <th>Equip No</th>
-            <th>Condition</th>
-            <th>Chain Health Score</th>
-            <th>Asset Passed</th>
-            <th>Inspection Date</th>
-        </tr>
+    <tr>
+        <th>Inspection ID</th>
+        <th>Equip No</th>
+        <th>Condition</th>
+        <th>Chain Health Score</th>
+        <th>Asset Passed</th>
+        <th>Inspection Date</th>
+    </tr>
     </thead>
     <tbody>
-        {% for inspection in inspections %}
-        <tr>
-            <td>{{inspection.id}}</td>
-            <td>{{inspection.equip_no}}</td>
-            <td>{{inspection.condition_code}}</td>
-            <td>{{inspection.lc_health_score}}</td>
-            <td>{{inspection.asset_passed}}</td>
-            <td>{{inspection.insp_date}}</td>
-        </tr>
-        {% endfor %}
+    {% for inspection in inspections %}
+    <tr>
+        <td>{{inspection.id}}</td>
+        <td>{{inspection.equip_no}}</td>
+        <td>{{inspection.condition_code}}</td>
+        <td>{{inspection.lc_health_score}}</td>
+        <td>{{inspection.asset_passed}}</td>
+        <td>{{inspection.insp_date}}</td>
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% else %}

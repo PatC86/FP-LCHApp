@@ -32,7 +32,9 @@
                         <select class="form-control" id="equip_no" name="equip_no">
                             <option value="">Select Equip No</option>
                             {% for lifting_chain in lifting_chain_list %}
-                            <option value="{{lifting_chain.equip_no}}">{{lifting_chain.equip_no}} - {{lifting_chain.description}}</option>
+                            <option value="{{lifting_chain.equip_no}}">{{lifting_chain.equip_no}} -
+                                {{lifting_chain.description}}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -41,7 +43,9 @@
                         <select class="form-control" id="condition" name="condition">
                             <option value="">Select Condition Score</option>
                             {% for condition in condition_list %}
-                            <option value="{{condition.condition_code}}">{{condition.condition_code}} - {{condition.condition_description}}</option>
+                            <option value="{{condition.condition_code}}">{{condition.condition_code}} -
+                                {{condition.condition_description}}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -52,7 +56,7 @@
                                min="{{ '{:.1f}'.format(min_length) }}"
                                max="{{ '{:.1f}'.format(max_length) }}"
                                step="0.1"
-                               >
+                        >
                     </div>
                     <div class="form-group">
                         <label for="pitch_length">Pitch Length (mm):</label>
@@ -68,7 +72,7 @@
                                name="mean_measured_pitch_length"
                                placeholder="Enter mean measured pitch length in millimetres (mm)"
                                min="{{'{:.0f}'.format(min_pitch_length)}}"
-                                step="1"
+                               step="1"
                         >
                     </div>
                     <div class="form-group">
@@ -76,7 +80,7 @@
                         <input type="number" class="form-control" id="pitches_measured" name="pitches_measured"
                                placeholder="Enter number of pitches measured (min {{min_pitches_measured}})"
                                min="{{'{:.0f}'.format(min_pitches_measured)}}"
-                        step="1">
+                               step="1">
                     </div>
                     <br/>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -108,7 +112,9 @@
                         <select class="form-control" id="o_equip_no" name="o_equip_no">
                             <option value="">Select Equip No</option>
                             {% for other_asset in other_asset_list %}
-                            <option value="{{other_asset.equip_no}}">{{other_asset.equip_no}} - {{other_asset.description}}</option>
+                            <option value="{{other_asset.equip_no}}">{{other_asset.equip_no}} -
+                                {{other_asset.description}}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>
@@ -117,7 +123,9 @@
                         <select class="form-control" id="o_condition" name="o_condition">
                             <option value="">Select Condition Score</option>
                             {% for condition in condition_list %}
-                            <option value="{{condition.condition_code}}">{{condition.condition_code}} - {{condition.condition_description}}</option>
+                            <option value="{{condition.condition_code}}">{{condition.condition_code}} -
+                                {{condition.condition_description}}
+                            </option>
                             {% endfor %}
                         </select>
                     </div>

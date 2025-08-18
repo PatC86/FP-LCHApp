@@ -10,7 +10,7 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 
 
-#Class to define assets table, links and constraints
+# Class to define assets table, links and constraints
 class Asset(db.Model):
     __tablename__ = 'asset'
     id = db.Column(db.Integer, primary_key=True)
@@ -24,6 +24,7 @@ class Asset(db.Model):
     __table_args__ = (
         CheckConstraint('equip_no BETWEEN 100000000000 AND 999999999999999', name='equip_no_12_digits'),
     )
+
 
 class Inspection(db.Model):
     __tablename__ = 'inspection'
@@ -49,6 +50,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     user_role = db.Column(db.String(10), db.ForeignKey('role.role_name'), nullable=False)
     inspections = db.relationship('Inspection', backref='user', lazy=True)
+
 
 class Site(db.Model):
     __tablename__ = 'site'
@@ -80,6 +82,7 @@ class Condition(db.Model):
     condition_code = db.Column(db.String(2), primary_key=True)
     condition_description = db.Column(db.String(50), nullable=False)
     inspection = db.relationship('Inspection', backref='condition', lazy=True)
+
 
 class Role(db.Model):
     __tablename__ = 'role'

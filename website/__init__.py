@@ -12,12 +12,12 @@ import logging
 
 db = SQLAlchemy()
 
+
 # Create flask app using config from config.py
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
     db.init_app(app)
-
 
     from .csp import csp
     from .views import views
@@ -28,14 +28,15 @@ def create_app():
 
     from .models import User, Role, Asset, Assetclass, Assetstatus, Site, Condition, Inspection
 
-    #with app.app_context():
-        #db.create_all()
+    # with app.app_context():
+    # db.create_all()
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
 
     try:
         login_manager.init_app(app)
+
         @login_manager.user_loader
         def load_user(id):
             return User.query.get(int(id))
@@ -45,6 +46,6 @@ def create_app():
 
     return app
 
-#def create_db():
-    #if not path.exists('database.db'):
-        #db.create_all()
+# def create_db():
+# if not path.exists('database.db'):
+# db.create_all()

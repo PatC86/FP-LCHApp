@@ -11,11 +11,13 @@ from sqlalchemy import select
 
 from . import db
 from .userrolewrappers import admin_required
-from .inspections import conditioncheck, lchealthscore, lcpass, MIN_CHAIN_LENGTH, MAX_CHAIN_LENGTH, MIN_PITCH_LENGTH, MAX_PITCH_LENGTH, MIN_PITCHES_MEASURED
+from .inspections import conditioncheck, lchealthscore, lcpass, MIN_CHAIN_LENGTH, MAX_CHAIN_LENGTH, MIN_PITCH_LENGTH, \
+    MAX_PITCH_LENGTH, MIN_PITCHES_MEASURED
 
 from website.models import Site, Asset, Assetclass, Assetstatus, User, Role, Inspection, Condition as ConditionModel
 
 views = Blueprint('views', __name__)
+
 
 # flask blueprint view for home page
 @views.route('/')
@@ -30,7 +32,14 @@ def home():
         Counts = (UserCount, AdminCount, ContEngCount, FieldCount, InspCount)
         return render_template('home.html', user=current_user, counts=Counts)
     elif current_user.user_role == 'CONTENG':
-        FailedInsps = db.session.query(Inspection.id, Inspection.equip_no, Inspection.user_id, Inspection.insp_date, Inspection.condition_code, Inspection.lc_health_score, Inspection.asset_passed, Asset.equip_class, Asset.site_no, Assetclass.class_description, Site.description, User.first_name, User.surname).join(Asset, Inspection.equip_no == Asset.equip_no).join(Assetclass, Asset.equip_class == Assetclass.class_id).join(Site, Asset.site_no == Site.site_no).join(User, Inspection.user_id == User.id).filter(Inspection.asset_passed.is_(False)).all()
+        FailedInsps = db.session.query(Inspection.id, Inspection.equip_no, Inspection.user_id, Inspection.insp_date,
+                                       Inspection.condition_code, Inspection.lc_health_score, Inspection.asset_passed,
+                                       Asset.equip_class, Asset.site_no, Assetclass.class_description, Site.description,
+                                       User.first_name, User.surname).join(Asset,
+                                                                           Inspection.equip_no == Asset.equip_no).join(
+            Assetclass, Asset.equip_class == Assetclass.class_id).join(Site, Asset.site_no == Site.site_no).join(User,
+                                                                                                                 Inspection.user_id == User.id).filter(
+            Inspection.asset_passed.is_(False)).all()
         print(FailedInsps)
         return render_template('home.html', user=current_user, failedinsps=FailedInsps)
     elif current_user.user_role == 'FIELD':
@@ -39,10 +48,12 @@ def home():
     else:
         return render_template('home.html', user=current_user)
 
+
 # flask blueprint view for FAQs
 @views.route('faqs')
 def faqs():
     return render_template('faqs.html', user=current_user)
+
 
 # flask blueprint view for operational sites
 @views.route('/sites')
@@ -50,6 +61,7 @@ def faqs():
 def sites():
     SiteList = db.session.query(Site).all()
     return render_template('sites.html', user=current_user, sites=SiteList)
+
 
 # flask blueprint view for lifting assets
 @views.route('/assets')
@@ -62,6 +74,7 @@ def assets():
         Asset.equip_class == Assetclass.class_id).join(
         Assetstatus, Asset.equip_status == Assetstatus.status_id).join(Site, Asset.site_no == Site.site_no).all()
     return render_template('assets.html', user=current_user, assets=AssetList)
+
 
 # blueprint view for inspections (lifting chain and other lifting assets)
 @views.route('/inspection', methods=['GET', 'POST'])
@@ -117,13 +130,22 @@ def inspection():
     LiftingChainList = db.session.query(Asset.equip_no, Asset.description).filter_by(equip_class='C5').all()
     OtherAssetList = db.session.query(Asset.equip_no, Asset.description).filter(Asset.equip_class != 'C5').all()
     ConditionList = db.session.query(ConditionModel).all()
-    return render_template('inspection.html', user=current_user,min_length=MIN_CHAIN_LENGTH, max_length=MAX_CHAIN_LENGTH, min_pitch_length=MIN_PITCH_LENGTH, max_pitch_length=MAX_PITCH_LENGTH, min_pitches_measured=MIN_PITCHES_MEASURED, lifting_chain_list=LiftingChainList, condition_list=ConditionList, other_asset_list=OtherAssetList)
+    return render_template('inspection.html', user=current_user, min_length=MIN_CHAIN_LENGTH,
+                           max_length=MAX_CHAIN_LENGTH, min_pitch_length=MIN_PITCH_LENGTH,
+                           max_pitch_length=MAX_PITCH_LENGTH, min_pitches_measured=MIN_PITCHES_MEASURED,
+                           lifting_chain_list=LiftingChainList, condition_list=ConditionList,
+                           other_asset_list=OtherAssetList)
+
 
 @views.route('/inspadmin', methods=['GET', 'POST'])
 @admin_required
 def inspadmin():
-    InspectionList = db.session.query(Inspection.id, Inspection.equip_no, Inspection.condition_code, Inspection.lc_health_score, Inspection.asset_passed, Inspection.insp_date, Inspection.user_id, User.first_name, User.surname, User.username).join(User, Inspection.user_id == User.id).all()
+    InspectionList = db.session.query(Inspection.id, Inspection.equip_no, Inspection.condition_code,
+                                      Inspection.lc_health_score, Inspection.asset_passed, Inspection.insp_date,
+                                      Inspection.user_id, User.first_name, User.surname, User.username).join(User,
+                                                                                                             Inspection.user_id == User.id).all()
     return render_template('inspadmin.html', user=current_user, inspections=InspectionList)
+
 
 @views.route('/inspadmin/<int:id>', methods=['POST'])
 @admin_required
@@ -137,6 +159,7 @@ def delete_insp(id):
         flash('Inspection cannot be deleted.', 'error')
 
     return redirect(url_for('views.inspadmin'))
+
 
 @views.route('/delete_user/<int:id>', methods=['POST'])
 @admin_required
