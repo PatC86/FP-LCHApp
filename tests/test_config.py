@@ -21,10 +21,10 @@ def _import_env_config(monkeypatch, secret_value=None):
 
 def test_config_secret_key_read(monkeypatch):
     """make sure config picks up secret key when present"""
-    test_config = _import_env_config(monkeypatch, secret_value='3BananaS!')
+    test_config = _import_env_config(monkeypatch, secret_value='secret')
 
     assert hasattr(test_config, 'Config')
-    assert test_config.Config.SECRET_KEY == '3BananaS!'
+    assert test_config.Config.SECRET_KEY == 'secret'
     assert test_config.Config.SQLALCHEMY_DATABASE_URI == 'sqlite:///database.db'
 
 

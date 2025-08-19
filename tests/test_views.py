@@ -72,7 +72,7 @@ def views_with_render_capture(monkeypatch):
 def test_faqs_renders_template(views_with_render_capture):
     views_mod, holder = views_with_render_capture
     app = Flask(__name__)
-    app.secret_key = "x"
+    app.secret_key = "secret"
     app.register_blueprint(views_mod.views)
     client = app.test_client()
 

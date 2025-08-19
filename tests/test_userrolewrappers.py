@@ -22,7 +22,7 @@ class _TestUser:
 
 def _create_app_with_user(user):
     app = Flask(__name__)
-    app.secret_key = 'super secret key'
+    app.secret_key = 'secret'
 
     auth_bp = Blueprint('auth', __name__)
 
