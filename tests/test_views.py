@@ -56,7 +56,8 @@ def _make_logged_in_app(views_mod, user_id=1, user_role="FIELD"):
 
 @pytest.fixture
 def views_with_render_capture(monkeypatch):
-    sys.modules.pop("website.views", None)
+    sys.modules.pop('website.views', None)
+    sys.modules.pop('website.models', None)
     views_mod = importlib.import_module("website.views")
 
     holder = {}
